@@ -1,23 +1,9 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-// import * as basicLightbox from 'basiclightbox'
-
-// const instance = basicLightbox.create(`
-//     <img src="assets/images/image.png" width="800" height="600">
-// `)
-
-// instance.show()
-
-
-
-// ----------------------------------------------------------------=
-
-console.log(galleryItems);
-
 const galleryWrapper = document.querySelector('.gallery')
-
-const galleryElements = galleryItems.map((element) => 
+ 
+const createGalleryElements = () => galleryItems.map((element) => 
     `<div class="gallery__item">
         <a class="gallery__link" href="${element.original}">
             <img
@@ -27,23 +13,31 @@ const galleryElements = galleryItems.map((element) =>
             alt="${element.description}"
             />
         </a>
-    </div > `
-).join("")
-
-
-console.log(galleryElements);
+    </div > 
+    `
+).join("") 
 
 const onGalleryElementClick = (e) => {
-    console.log(
-        e.target.dataset.source
-    );
-    // document.querySelector('gallery__image').onclick = () => {
-	// basicLightbox.create().show()
-    // }
+    if (e.target.classList.value !== 'gallery__image') {
+        return
+    }
 
+    e.preventDefault()
+    
+    const onEscButton = (e) => {
+        if (e.key === 'Escape') {
+            instance.close()
+        }
+    }
+    
+    const instance = basicLightbox.create(`
+		<img src="${e.target.dataset.source}">
+	`)
+    
+    instance.show(e => {
+        document.addEventListener('keydown', onEscButton, { once: true })
+    }) 
 }
 
-galleryWrapper.insertAdjacentHTML('beforeend', galleryElements)
-
+galleryWrapper.insertAdjacentHTML('beforeend', createGalleryElements())
 galleryWrapper.addEventListener('click', onGalleryElementClick)
-
