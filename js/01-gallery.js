@@ -28,6 +28,7 @@ const onGalleryElementClick = (e) => {
         if (e.key === 'Escape') {
             instance.close()
         }
+        document.removeEventListener('keydown', onEscButton)
     }
     
     const instance = basicLightbox.create(`
@@ -35,7 +36,7 @@ const onGalleryElementClick = (e) => {
 	`)
     
     instance.show(e => {
-        document.addEventListener('keydown', onEscButton, { once: true })
+        document.addEventListener('keydown', onEscButton)
     }) 
 }
 
